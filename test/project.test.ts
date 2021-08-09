@@ -12,7 +12,7 @@ function sleep(ms: number): Promise<void> {
 
 describe("Integration tests", function () {
   // todo add some public RPC for testing
-  const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
+  const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL ?? "https://bsc-dataseed.binance.org");
   const utils = new Utils(provider);
 
   // EIP-2470 Deployer has pretty short ABI, and is deployed on most networks
