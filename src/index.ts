@@ -3,15 +3,15 @@ import { EtherscanURLs, getEtherscanEndpoints } from "./network/prober";
 import { getAbi } from "./etherscan/EtherscanService";
 import { ethers } from "ethers";
 
-export default class Utils {
-  public readonly provider: ethers.providers.Provider | ethers.Signer;
+export default class EtherscanUtil {
+  public readonly providerOrSigner: ethers.providers.Provider | ethers.Signer;
 
   private readonly apiKey?: string;
 
   private endpoint?: EtherscanURLs;
 
-  public constructor(provider: ethers.providers.Provider | ethers.Signer, etherscanApiKey?: string) {
-    this.provider = provider;
+  public constructor(providerOrSigner: ethers.providers.Provider | ethers.Signer, etherscanApiKey?: string) {
+    this.providerOrSigner = providerOrSigner;
     this.apiKey = etherscanApiKey;
   }
 
@@ -21,13 +21,11 @@ export default class Utils {
   ): Promise<ethers.Contract> {
     const { isAddress } = await import("@ethersproject/address");
     if (!isAddress(address)) {
-      throw new Error(
-        `${address} is an invalid address.`
-      );
+      throw new Error(`${address} is an invalid address.`);
     }
   
     if (!this.endpoint) {
-      this.endpoint = await getEtherscanEndpoints(this.provider);
+      this.endpoint = await getEtherscanEndpoints(this.providerOrSigner);
     }
     const request = toGetAbiRequest({
       // @ts-ignore
@@ -36,6 +34,6 @@ export default class Utils {
     });
     const abi = await getAbi(this.endpoint.apiURL, request);
   
-    return new ethers.Contract(address, abi, signer ?? this.provider);
+    return new ethers.Contract(address, abi, signer ?? this.providerOrSigner);
   }
 }

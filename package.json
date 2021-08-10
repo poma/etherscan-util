@@ -1,9 +1,9 @@
 {
-  "name": "get-etherscan-abi",
+  "name": "etherscan-util",
   "version": "0.1.0",
   "description": "A package fetching contract ABI from etherscan",
-  "repository": "github:poma/get-etherscan-abi",
-  "homepage": "https://github.com/poma/get-etherscan-abi",
+  "repository": "github:poma/etherscan-util",
+  "homepage": "https://github.com/poma/etherscan-util",
   "author": "Roman Semenov <semenov.roma@gmail.com>",
   "license": "MIT",
   "main": "dist/src/index.js",

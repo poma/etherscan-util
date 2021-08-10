@@ -60,15 +60,7 @@ export async function getEtherscanEndpoints(
   const endpoints = networkIDtoEndpoints[chainID as NetworkID];
 
   if (endpoints === undefined) {
-    throw new Error(
-      `An etherscan endpoint could not be found for this network. ChainID: ${chainID}.
-
-Possible causes are:
-  - The selected network is wrong.
-  - Faulty hardhat network config.
-
- If you use Mainnet fork mode try setting 'chainId: 1' in hardhat config`
-    );
+    throw new Error(`An etherscan endpoint could not be found for this network. ChainID: ${chainID}.`);
   }
 
   return endpoints;

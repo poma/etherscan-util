@@ -1,71 +1,37 @@
-# hardhat-etherscan-abi [![Build Status](https://github.com/poma/hardhat-etherscan-abi/workflows/build/badge.svg)](https://github.com/poma/hardhat-etherscan-abi/actions) [![npm](https://img.shields.io/npm/v/hardhat-etherscan-abi.svg)](https://www.npmjs.com/package/hardhat-etherscan-abi) [![hardhat](https://hardhat.org/buidler-plugin-badge.svg?1)](https://hardhat.org)
+# etherscan-util [![Build Status](https://github.com/poma/etherscan-util/workflows/build/badge.svg)](https://github.com/poma/etherscan-util/actions) [![npm](https://img.shields.io/npm/v/etherscan-util.svg)](https://www.npmjs.com/package/etherscan-util)
 
-[Hardhat](https://hardhat.org) plugin that fetches verified contract ABI from [Etherscan](https://etherscan.io).
-
-## What
-
-This plugin adds extra features on top of `@nomiclabs/hardhat-ethers` and allows creating contract instances without
-manually downloading ABI: `ethers.getVerifiedContractAt('<address>')`. It supports Mainnet, BSC, and most testnets.
+This package allows creating ethers.js contract instances without manually downloading ABI: `etherscanUtil.getVerifiedContractAt('<address>')`. It supports Mainnet, BSC, and most testnets.
 
 ## Installation
 
 ```bash
-npm install --save-dev hardhat-etherscan-abi
+npm install etherscan-util
 ```
 
-And add the following statement to your `hardhat.config.js`:
+## Usage
 
 ```js
-require("hardhat-etherscan-abi");
+const ethers = require("ethers");
+const EtherscanUtil = require("etherscan-util");
+
+const provider = new ethers.providers.JsonRpcProvider(RPC_URL);
+const etherscanUtil = new EtherscanUtil(provider, ETHERSCAN_API_KEY);
+const contract = await etherscanUtil.getVerifiedContractAt('<address>');
 ```
 
-Or, if you are using TypeScript, add this to your `hardhat.config.ts`:
+It requires only contract address and will fetch the ABI for the contract automatically from Etherscan. If signer is not supplied to getVerifiedContractAt, 
+it will initialize contract instance with provider/signer that was supplied to EtherscanUtil constructor.
 
-```js
-import "hardhat-etherscan-abi";
-```
-
-## Tasks
-
-This plugin creates no additional tasks.
-
-## Environment extensions
-
-This object has adds some extra `hardhat-etherscan-abi` specific functionalities by adding new extra fields to `hre.ethers`
-
-### Helpers
-
-These helpers are added to the `ethers` object:
+Here are function definitions:
 
 ```typescript
-export async function getVerifiedContractAt(
-  hre: HardhatRuntimeEnvironment,
+function constructor(
+  providerOrSigner: ethers.providers.Provider | ethers.Signer, 
+  etherscanApiKey?: string);
+
+async function getVerifiedContractAt(
   address: string,
   signer?: ethers.Signer
 ): Promise<ethers.Contract>;
 ```
 
-## Usage
-
-You need to add the following Etherscan config to your `hardhat.config.js` file. Etherscan API key is optional but without it Etherscan allows only 1 request per 5 seconds.
-
-```js
-module.exports = {
-  networks: {
-    mainnet: { ... }
-  },
-  etherscan: {
-    // Your API key for Etherscan
-    // Obtain one at https://etherscan.io/
-    apiKey: "YOUR_ETHERSCAN_API_KEY"
-  }
-};
-```
-
-Then use the function:
-
-```js
-const contract = await hre.ethers.getVerifiedContractAt('<address>');
-```
-
-It requires only contract address and will fetch the ABI for the contract automatically from Etherscan
