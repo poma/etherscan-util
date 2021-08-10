@@ -1,6 +1,6 @@
 {
   "name": "etherscan-util",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A package fetching contract ABI from etherscan",
   "repository": "github:poma/etherscan-util",
   "homepage": "https://github.com/poma/etherscan-util",
