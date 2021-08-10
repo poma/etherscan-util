@@ -11,8 +11,9 @@ npm install etherscan-util
 ## Usage
 
 ```js
-const ethers = require("ethers");
-const EtherscanUtil = require("etherscan-util");
+import ethers from "ethers";
+import EtherscanUtil from "etherscan-util";
+// You can also use `const EtherscanUtil = require('etherscan-util')`
 
 const provider = new ethers.providers.JsonRpcProvider(RPC_URL);
 const etherscanUtil = new EtherscanUtil(provider, ETHERSCAN_API_KEY);

@@ -21,7 +21,6 @@ describe("Integration tests", function () {
   const eoaAddress = "0x000000000000000000000000000000000000dEaD";
 
   it("should get the Contract ABI from Etherscan", async function () {
-    // @ts-ignore
     const contract = await etherscanUtil.getVerifiedContractAt(testAddress);
     const abi = contract.interface.format();
     expect(abi.length).to.be.equal(1);
@@ -30,14 +29,12 @@ describe("Integration tests", function () {
 
   // todo check if this is still valid
   it.skip("should display rate limit error", async function () {
-    // @ts-ignore
     await expect(etherscanUtil.getVerifiedContractAt(testAddress)).to.be.rejectedWith(
       "Max rate limit reached, please provide an Etherscan API token via constructor\nSee https://etherscan.io/apis"
     );
   });
 
   it("should detect bad address", async function () {
-    // @ts-ignore
     await expect(etherscanUtil.getVerifiedContractAt("foo")).to.be.rejectedWith(
       "foo is an invalid address."
     );
@@ -45,7 +42,6 @@ describe("Integration tests", function () {
 
   it("should correctly fail on unverified contracts", async function () {
     await sleep(10000); // make sure etherscan doesn't rate limit after previous test
-    // @ts-ignore
     await expect(etherscanUtil.getVerifiedContractAt(eoaAddress)).to.be.rejectedWith(
       "The Etherscan API responded with a failure status.\nReason: Contract source code not verified"
     );

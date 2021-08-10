@@ -3,7 +3,10 @@ import { EtherscanURLs, getEtherscanEndpoints } from "./network/prober";
 import { getAbi } from "./etherscan/EtherscanService";
 import { ethers } from "ethers";
 
-export default class EtherscanUtil {
+class EtherscanUtil {
+  // allow importing as ES6 module
+  public default = EtherscanUtil;
+
   public readonly providerOrSigner: ethers.providers.Provider | ethers.Signer;
 
   private readonly apiKey?: string;
@@ -28,7 +31,6 @@ export default class EtherscanUtil {
       this.endpoint = await getEtherscanEndpoints(this.providerOrSigner);
     }
     const request = toGetAbiRequest({
-      // @ts-ignore
       apiKey: this.apiKey ?? "",
       address,
     });
@@ -37,3 +39,5 @@ export default class EtherscanUtil {
     return new ethers.Contract(address, abi, signer ?? this.providerOrSigner);
   }
 }
+
+export = EtherscanUtil;
